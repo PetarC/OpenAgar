@@ -5,47 +5,66 @@ import java.awt.event.WindowListener;
 
 public class GameWindowListener implements WindowListener {
 
-	@SuppressWarnings("unused")
+	private static final boolean DEBUG = false;
+	private static String lastDebugMessage;
+	
 	private GameWindow game;
 	
 	public GameWindowListener(GameWindow game) {
+		this.printDebug("Attached to the game window "+ game.getName());
 		this.game = game;
-		System.out.println("Window listener attached to game window "+ game.getName());
+		this.game.setGameActive(true);
+	}
+	
+	@SuppressWarnings("unused")
+	private void printDebug(String s) {
+		if (DEBUG && s != null && (lastDebugMessage == null || !lastDebugMessage.equals(s))) {
+			System.out.println("<GameWindowListener> "+ s);
+			lastDebugMessage = s;
+		}
 	}
 	
 	@Override
 	public void windowActivated(WindowEvent e) {
-		System.out.println("Game window has been activated"); // restored / switching back to window
+		this.game.setGameActive(true);
+		this.printDebug("Window restored");
 	}
 
 	@Override
 	public void windowClosed(WindowEvent e) {
-		System.out.println("Game window has been closed"); // never called
+		this.game.setGameActive(false);		
+		this.printDebug("Window closed");
+
 	}
 
 	@Override
 	public void windowClosing(WindowEvent e) {
-		System.out.println("Game window is closing"); // window closed
+		this.game.setGameActive(false);
+		this.printDebug("Window is closing"); 
 	}
 
 	@Override
 	public void windowDeactivated(WindowEvent e) {
-		System.out.println("Game window has been deactivated"); // minimizing / switching to other window
+		this.game.setGameActive(false);
+		this.printDebug("Window paused");
 	}
 
 	@Override
 	public void windowDeiconified(WindowEvent e) {
-		System.out.println("Game window has been deiconified"); // restored
+		this.game.setGameActive(true);
+		this.printDebug("Window restored");
 	}
 
 	@Override
 	public void windowIconified(WindowEvent e) {
-		System.out.println("Game window has been iconified"); // minimized
+		this.game.setGameActive(false);
+		this.printDebug("Window paused");
 	}
 
 	@Override
 	public void windowOpened(WindowEvent e) {
-		System.out.println("Game window has been opened"); // window created
+		this.game.setGameActive(true);
+		this.printDebug("Window created");
 	}
 
 }
