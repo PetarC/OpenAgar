@@ -8,6 +8,8 @@ public class Server {
     public static String VERSION = "0.0.1";
     public static String CODENAME = "Morpheus";
 
+    private static SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+
     public static void main(String[] args) {
         /* Show server details */
         System.out.println(Server.getServerDetails());
@@ -29,7 +31,6 @@ public class Server {
 
     public static void print(String text) {
         if (text != null) {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
             System.out.println("["+ dateFormat.format(new Date()) +"] " + text);
         }
     }
