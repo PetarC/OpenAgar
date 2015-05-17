@@ -48,7 +48,7 @@ public class LoginServer implements Runnable {
 
     @Override
     public void run() {
-        Server.print("Listening for clients for GameServer "+ this.gameServer.getName());
+        Server.print("Listening for clients on "+ this.gameServer.getName());
 
         while (running) {
             try {

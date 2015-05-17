@@ -1,6 +1,5 @@
 package com.openagar.server;
 
-import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.util.HashSet;
 import java.util.Set;
@@ -11,28 +10,26 @@ public class GameServer {
     private Set<NetworkPlayer> playerList = new HashSet<>();
     private ServerSocket serverSocket;
     private LoginServer loginServer;
-    private String name;
+    private GameServerSettings settings;
 
-    public GameServer(String name, int port) throws IllegalArgumentException {
-        if (name == null)
-            throw new IllegalArgumentException("Invalid GameServer name");
-        if (port <= 0)
-            throw new IllegalArgumentException("Invalid GameServer port");
+    public GameServer(GameServerSettings settings) throws IllegalArgumentException {
+        if (settings == null)
+            throw new IllegalArgumentException("Invalid GameServer settings");
 
-        this.name = name;
+        this.settings = settings;
 
         try {
-            serverSocket = new ServerSocket(port);
+            serverSocket = new ServerSocket(settings.getPort());
             loginServer = new LoginServer(this);
         }
         catch (Exception e) {
-            Server.print("Could not start GameServer on port " + port);
+            Server.print("Could not start GameServer on port " + settings.getPort());
         }
     }
 
     public void add(NetworkPlayer player) {
         playerList.add(player);
-        Server.print("GameServer "+ name +" has now "+ playerList.size() +" clients");
+        Server.print("GameServer "+ settings.getName() +" has now "+ playerList.size() +" clients");
     }
 
     public ServerSocket getServerSocket() {
@@ -40,19 +37,19 @@ public class GameServer {
     }
 
     public String getName() {
-        return name;
+        return settings.getName();
     }
 
     public void start() {
         if (serverSocket == null || loginServer == null)
             return;
 
-        Server.print("GameServer "+ name +" started on port " + serverSocket.getLocalPort());
+        Server.print("GameServer "+ settings.getName() +" started on port " + serverSocket.getLocalPort());
         loginServer.start();
     }
 
     public void stop() {
         loginServer.stop();
-        Server.print("GameServer "+ name +" has stopped");
+        Server.print("GameServer "+ settings.getName() +" has stopped");
     }
 }

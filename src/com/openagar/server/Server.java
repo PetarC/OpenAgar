@@ -15,7 +15,7 @@ public class Server {
         System.out.println(Server.getServerDetails());
 
         /* Start server */
-        new NetworkServer().start();
+        new ServerLauncher().start();
     }
 
     public static String getServerDetails() {
