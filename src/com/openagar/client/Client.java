@@ -1,7 +1,9 @@
 package com.openagar.client;
 
 public class Client {
+    public static final String NAME = "OpenAgar";
+
     public static void main(String[] args) {
-        System.out.println("Hello Client");
+        new ClientLauncher().start();
     }
 }
